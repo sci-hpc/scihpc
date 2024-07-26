@@ -59,7 +59,7 @@ site_url: !ENV READTHEDOCS_CANONICAL_URL
 # repo_name: sci-hpc/scicluster
 # repo_url: https://github.com/sci-hpc/scicluster
 # edit_uri: edit/main/docs/
-docs_dir: docs
+# docs_dir: docs
 site_description: >-
   Sci-HPC tries to make High performance computing more simple and accessible.
 copyright: Copyright &copy; 2023 - 2024 Sci-HPC team
