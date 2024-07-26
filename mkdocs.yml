@@ -90,7 +90,8 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      check_paths: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -107,6 +108,16 @@ nav:
       - index.md
   - Documentation:
       - docs/index.md
+      - docs/getting-started.md
+      - docs/about-scicluster.md
+      - docs/login.md
+      - docs/jobs/dos_and_donts.md
+      - docs/jobs/slurm.md
+      - docs/jobs/examples.md
+      - docs/jobs/interactive.md
+      - docs/jobs/job_management.md
+      - docs/jobs/monitoring.md
+      - docs/jobs/running_mpi_jobs
       
   - Blog:
       - blog/index.md
