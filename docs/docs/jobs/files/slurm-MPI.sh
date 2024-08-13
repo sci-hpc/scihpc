@@ -6,24 +6,21 @@
 
 #SBATCH --job-name=example
 
-# 32 MPI tasks in total
-# Scicluster has 4 nodes and therefore we take
-# a number that is divisible by both
-#SBATCH --ntasks=32
+# 20 MPI tasks in total
+#SBATCH --ntasks=20
 
 # run for five minutes
 #              d-hh:mm:ss
 #SBATCH --time=0-00:05:00
 
 # 500MB memory per core
-# this is a hard limit
 #SBATCH --mem-per-cpu=500MB
 
 # determine the partition
 #SBATCH --partition=para
 
-#SBATCH --output="stdout.txt"
-#SBATCH --error="stderr.txt"
+#SBATCH --output="stdout_%j"
+#SBATCH --error="stderr_%j"
 
 # you may not place bash commands before the last SBATCH directive
 

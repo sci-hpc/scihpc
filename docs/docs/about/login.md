@@ -1,5 +1,7 @@
 # Logging in for the first time
 
+![Connecting to the Scicluster](./ondemand-connect-fum.png "Connecting to the Scicluster")
+
 ## Connect to the VPN
 
 Before connecting to the Scicluster login node (currently our frontend node is also the login node), you need to first connect to the VPN. Please do as follow for your preferred OS:
@@ -32,11 +34,19 @@ sudo openfortivpn -c ~/my_vpn.conf
 
 - enter your local (not the cluster) password and connect.
 
+### Windows
+
+Please go to this [link](https://ict.um.ac.ir/index.php/fa/2021-04-04-03-53-24/2021-04-04-04-17-50/2-uncategorize/368-2021-04-05-05-20-32) and download the client for your OS version. Please read the user guide before installing FortiClient VPN.
+
+### Android
+
+Please download the app via [Google Play](https://play.google.com/store/apps/details?id=com.fortinet.forticlient_vpn) or [Myket](https://myket.ir/app/com.fortinet.forticlient_fa).
+
 
 ## Log in with SSH
 
 
-An *SSH* client (Secure SHell) is required to connect to sciscluster.
+An *SSH* (Secure SHell) client is required to connect to sciscluster.
 An *SSH* client provides secure encrypted communications between two hosts over an insecure network.
 
 If you already have *ssh* installed on your UNIX-like system, login may be as easy as typing
@@ -84,17 +94,15 @@ To learn more about using SSH, please also consult the [OpenSSH page](https://ww
 
 ## Logging in to the compute nodes
 
-
-Information on how to log in to a compute node.
-
 Some times you may want to log in to a compute node (for instance to check
-out output files on the local work area on the node), and this is also
-done by using SSH. From ``sci.local`` you can log in to
-compute-x-y the following way:
+out output files on the local scratch space on the compute node). This is also
+done by using SSH. On the login node do:
 
 ```
-ssh compute-x-y     (for instance: ssh compute-0-1)
+ssh compute-node     (for instance: ssh compute-0-1)
 ```
+
+Please note you must have a running job on this compte node, otherwise SLURM will not allow you to log in to this compute node.
     
 ## X-forwarding for graphical softwares
 
@@ -102,10 +110,10 @@ ssh compute-x-y     (for instance: ssh compute-0-1)
 If you need [X-forwarding](https://en.wikipedia.org/wiki/X_Window_System) (for instance, if you like to run Mathematica in it's own window) you must log in like this:
 
 ```
-ssh -X -Y username@login-node
+ssh -Y username@login-node
 ```
  
-Then you must submit an :ref:`x11interactive` to get a terminal (this will give you access to the compute nodes such as ``compute-0-0``). You should be able to run your program in this terminal and after a few seconds (depending to your network connection) the program window should be appeared. To test it you can test xclock. In this terminal type
+Then you must submit an [x11-enabled-interactive-job](../jobs/interactive.md/#x11-enabled-interactive-job) to get a terminal (this will give you access to the compute nodes such as ``compute-0-0``). You should be able to run your program in this terminal and after a few seconds (depending to your network connection) the program window should be appeared. To test it you can test xclock. In this terminal type
 
 ```
 xclock

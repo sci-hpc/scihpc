@@ -17,7 +17,6 @@
 #SBATCH --partition=short
 
 # 100MB memory per core
-# this is a hard limit
 #SBATCH --mem-per-cpu=100MB
 
 #SBATCH --output="stdout.txt"

@@ -36,9 +36,9 @@ interactive -c1 -w compute-0-0 -p short
 As our current slurm ``srun`` command does not forward X11 automatically, you can use ``srun.x11`` command for those interactive jobs which need to forward X11. For example:
 
 ```bash
-srun.x11 -p short --nodes=1 --ntasks-per-node=1 --time=01:00:00 --mem=1GB
+srun.x11 -p short --nodes=1 --ntasks-per-node=1 --time=01:00:00 --mem=4GB
 ```
 
 To test run the simple ``xclock`` program in the terminal session provided to you.
 
-Like the ``sun`` command, you can use slurm option according to your needs. Please note for proper forwarding of X11 to your local computer, you had to log in to the login node with ``-Y -X`` arguments. See [login](../login.md) for more info.
+Like the ``sun`` command, you can use slurm option according to your needs. Please note for proper forwarding of X11 to your local computer, you had to log in to the login node with ``-Y -X`` arguments. See [login](../about/login.md) for more info.

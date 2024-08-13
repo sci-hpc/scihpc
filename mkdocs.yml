@@ -76,16 +76,20 @@ plugins:
         background_color: "#006bba"
   - include-markdown:
       trailing_newlines: false
-  - git-revision-date-localized:
-      fallback_to_build_date: true
+  # - git-revision-date-localized:
+  #     fallback_to_build_date: true
   - blog:
       post_excerpt: optional
       blog_dir: blog
       draft_if_future_date: true
 markdown_extensions:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - admonition
   - pymdownx.details
   - pymdownx.highlight:
+      use_pygments: true
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
@@ -107,17 +111,42 @@ nav:
   - Home:
       - index.md
   - Documentation:
-      - docs/index.md
-      - docs/getting-started.md
-      - docs/about-scicluster.md
-      - docs/login.md
-      - docs/jobs/dos_and_donts.md
-      - docs/jobs/slurm.md
-      - docs/jobs/examples.md
-      - docs/jobs/interactive.md
-      - docs/jobs/job_management.md
-      - docs/jobs/monitoring.md
-      - docs/jobs/running_mpi_jobs
+      - Scicluster:
+        - docs/index.md
+        - docs/about/about-scicluster.md
+        - docs/about/getting-started.md
+        - docs/about/login.md
+      - Storage:
+        - docs/storage/storage.md
+      - softwares:
+        - docs/softwares/softwares.md
+        - docs/softwares/modules.md
+        - docs/softwares/python.md
+        - Applications:
+          - docs/softwares/apps/index.md
+          - docs/softwares/apps/astrophysics/BHAC/BHAC.md
+          - docs/softwares/apps/astrophysics/GADGET/GADGET-v4.md
+          - docs/softwares/apps/astrophysics/GIZMO/GIZMO.md
+          - docs/softwares/apps/math-stat/Mathematica.md
+      - Development:
+        - docs/development/compilers.md
+        - docs/development/environment.md
+        - docs/development/toolchains_easybuild.md
+        - docs/development/building.md
+      - Parallel computing:
+        - docs/parallel_computing/intro.md
+      - Managing jobs and workflows:
+        - docs/jobs/dos_and_donts.md
+        - docs/jobs/slurm.md
+        - docs/jobs/examples.md
+        - docs/jobs/interactive.md
+        - docs/jobs/job_management.md
+        - docs/jobs/monitoring.md
+        - docs/jobs/running_mpi_jobs.md
+      - Web Portal:
+        - docs/web_portal/web_portal.md
+      - Acknowledgment:
+        - docs/acknowledgment/acknowledgment.md
       
   - Blog:
       - blog/index.md

@@ -126,10 +126,19 @@ use ``--ntasks-per-node`` in combination with ``--nodes``:
 This will start 2 MPI tasks each on 2 nodes, where each task can use up to 8 threads.
 
 ### Example for a GPU job
+=== "run-p4000.sh"
+    ```bash
+    --8<-- "docs/docs/jobs/files/slurm-gpu-p4000.sh"
+    ```
+=== "run-k80.sh"
+    ```bash
+    --8<-- "docs/docs/jobs/files/slurm-gpu-k80.sh"
+    ```
+=== "stats.cu"
+    ```bash
+    --8<-- "docs/docs/jobs/files/stats.cu"
+    ```
 
-```bash
---8<-- "docs/docs/jobs/files/slurm-gpu.sh"
-```
 ## General tips
 
 ### Example on how to allocate entire memory on one node

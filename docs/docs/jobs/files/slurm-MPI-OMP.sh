@@ -6,24 +6,23 @@
 
 #SBATCH --job-name=example
 
-# we ask for 2 MPI tasks with 4 cores each
-#SBATCH --nodes=2
+# we ask for 2 MPI tasks with 18 cores each on 1 node
+#SBATCH --nodes=1
 #SBATCH --ntasks-per-node=2
-#SBATCH --cpus-per-task=32
+#SBATCH --cpus-per-task=18
 
 # run for five minutes
 #              d-hh:mm:ss
 #SBATCH --time=0-00:05:00
 
 # 500MB memory per core
-# this is a hard limit
 #SBATCH --mem-per-cpu=500MB
 
 # determine the partition
 #SBATCH --partition=para
 
-#SBATCH --output="stdout.txt"
-#SBATCH --error="stderr.txt"
+#SBATCH --output="stdout_%j"
+#SBATCH --error="stderr_%j"
 
 # you may not place bash commands before the last SBATCH directive
 

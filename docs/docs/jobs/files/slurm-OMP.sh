@@ -6,14 +6,12 @@
 
 #SBATCH --job-name=example
 
-# we ask for 1 task with 8 cores
-#SBATCH --nodes=1
+# we ask for 1 task with 12 cores
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=12
 
-# exclusive acccess to compute nodes. 
-# default is sharing nodes
-#SBATCH --exclusive
+# ask for 16GB memory
+#SBATCH --mem=16G
 
 # run for five minutes
 #              d-hh:mm:ss
@@ -22,8 +20,8 @@
 # determine the partition
 #SBATCH --partition=para
 
-#SBATCH --output="stdout.txt"
-#SBATCH --error="stderr.txt"
+#SBATCH --output="stdout_%j"
+#SBATCH --error="stderr_%j"
 
 # you may not place bash commands before the last SBATCH directive
 
@@ -51,6 +49,3 @@ cp ${SCRATCH_DIRECTORY}/my_output ${SLURM_SUBMIT_DIR}
 # we step out of the scratch directory and remove it
 cd ${SLURM_SUBMIT_DIR}
 rm -rf ${SCRATCH_DIRECTORY}
-
-# happy end
-exit 0

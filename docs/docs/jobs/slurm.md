@@ -1,49 +1,88 @@
 # SLURM Workload Manager
 
-[SLURM](https://slurm.schedmd.com/) is the workload manager and job scheduler used for Scicluster.
+[SLURM](https://slurm.schedmd.com/) is the workload manager and job scheduler for Scicluster. The main function of SLURM is to allocate resources within the cluster to its users. Resource management may include managing nodes, sockets, cores, and hyper-threads. In addition, resource allocation based on the topology, software licenses and generic resources such as GPUs can be managed by SLURM.
+
+Each job has two parts:
+
+- Resource requests: describe the amount of computing resource (CPUs, memory, expected run time, etc.) that the job will need to successfully run.
+- Job steps: describe individual tasks that must be executed into a job. You can execute a job step with the SLURM command `srun`. A job can has one or more steps, each consisting in one or more tasks each using one or more CPU, GPU, etc.
 
 There are two ways of starting jobs with SLURM; either interactively with ``srun``
-or as a script with ``sbatch``.
+or as a script with ``sbatch`` commands.
 
 Interactive jobs are a good way to test your setup before you put it into a script
 or to work with interactive applications like python.
-You immediately see the results and can check if all parts behave as you expected.
-See :ref:`interactive` for more details.
+You immediately see the results and can check if all parts behave as you expect.
+See [interactive](./interactive.md) section for more details.
+
+!!! note "Resources managed by SLURM"
+
+
+    - Nodes:
+    Node is a computing instance with one or more cores, memory and local storage. Typically, one IP address is assigned to a compute node.
+
+    - Boards:
+    A physical motherboard which contains one or more of each of Socket, Memory bus and PCI bus.
+        
+    - Sockets:
+    The receptacle on the motherboard for a physical processor. Depending on the configuration, each socket may contain one or more cores (depending on the processor architecture).
+        
+    - Cores:
+    A complete isolated set of registers, Arithmetic Logic Units and queues to execute a program.
+        
+    - HyperThreads:
+    Within each physical core, the operating system is able to address two virtual cores to increase the number of independent instruction sets processed.
+        
+    - Memory:
+    Memory is made of capacitors and semiconductors to store information for immediate access.
+        
+    - Topology guide:
+    To optimize the job performance, SLURM can be configured to topology-aware resource allocation. Currently, it supports 3D topology and hierarchical topology. The default behavior is to consider all the nodes as a one-dimensional array.
+        
+    - License guide:
+    SLURM also assists with license management by assigning available licenses to jobs at the time of scheduling. If the relevant license is not available, the job will not be executed and will remain in the pending state.
+
+    ![Resources managed by SLURM](./slurm_arch.png "Resources managed by SLURM")
+    [Ref](https://blogs.oracle.com/research/post/a-beginners-guide-to-slurm)
+
 
 
 ## SLURM Parameter
 
 [SLURM](https://slurm.schedmd.com) supports a multitude of different parameters.
-This enables you to effectivly tailor your script to your need when using Scicluster
+This enables you to effectively tailor your script to your need when using Scicluster
 but also means that it is easy to be confused and waste your time and quota.
 
 The following parameters can be used as command line parameters with ``sbatch`` and
-``srun`` or in jobscript, see :ref:`job_script_examples`.
-To use it in a jobscript, start a newline with ``#SBTACH`` followed by the parameter.
-Replace <....> with the value you want, e.g. ``--job-name=test-job``.
+``srun`` or in job script, see [job script examples](./examples.md).
+To use these parameters in a job script, start a newline with ``#SBTACH`` directive followed by the parameter.
+Replace <....> with the value you want, e.g. ``--job-name=test-job``. The following tables show only the most useful ones.
+
+### General parameters
 
 | Parameter                         | Function                         |
 |-----------------------------------|----------------------------------|
-| `--job-name=<name>` or `-J <name>`| Job name to be displayed by for example `squeue` command   |
+| `--job-name=<name>` or `-J <name>`| Job name to be displayed by for example the `squeue` command   |
 | `--output=<path>` or `-o <name>` | Path to the file where the job output is written to |
 | `--error=<path>` or `-e <name>`  | Path to the file where the job error is written to |
 | `--mail-type=<type>`             | Turn on mail notification; type can be one of BEGIN, END, FAIL, REQUEUE or ALL   |
-| `--mail-user=<email_address>`    | > Email address to send notifications to        |
+| `--mail-user=<email_address>`    | Email address to send notifications to        |
 
 
-### Requesting Resources
+### Requesting Resources parameters
 
 | Parameter                         | Function                        |
 |-----------------------------------|---------------------------------|
 | ``--time=<d-hh:mm:ss>`` | Time limit for job. Job will be killed by SLURM after time has run out. Format days-hours:minutes:seconds|
-| ``--nodes=<num_nodes>`` or ``-N=<num_nodes>`` | Number of nodes. Multiple nodes are only useful for jobs with distributed-memory (e.g. MPI).|
-| ``--mem=<MB>`` |  Memory (RAM) per node. Number followed by unit prefix, e.g. 16G|
-| ``--mem-per-cpu=<MB>``| Memory (RAM) per requested CPU core|
-| ``--ntasks-per-node=<num_procs>`` | Number of (MPI) processes per node. More than one useful only for MPI jobs. Maximum number is node dependent (number of cores) |
-| ``--cpus-per-task=<num_threads>`` | CPU cores per task. For MPI use one. For parallelized applications benchmark this is the number of threads. |
+| ``--nodes=<num_nodes>`` or `-N` | Number of nodes. Multiple nodes are only useful for jobs with distributed-memory (e.g. MPI).|
+| ``--mem=<MB>`` |  Memory (RAM) per node. Number followed by unit prefix `K|M|G|T`, e.g. 16G|
+| ``--mem-per-cpu=<MB>``| Memory (RAM) per requested CPU core. This option with the value of 512 M is set as the default for all partitions.|
+| `--ntasks=<num_procs>` or `-n` | Number of processes. Useful for MPI jobs. |
+| ``--ntasks-per-node=<num_procs>`` | Number of processes per node. Useful for MPI jobs. Maximum number is node dependent (number of cores) |
+| ``--cpus-per-task=<num_threads>`` or `-c` | CPU cores per task. For OpenMP (i.e. shared memory) or hybrid OpenMP/MPI use one. Should be equal to the number of threads. |
 | ``--exclusive`` | Job will not share nodes with other running jobs. You will be charged for the complete nodes even if you asked for less. |
 
-### Accounting
+### Accounting parameters
 
 See also [partitions](#partitions-queues).
 
@@ -51,33 +90,33 @@ See also [partitions](#partitions-queues).
 |-----------|----------|
 | ``--account=<name>`` | Project (not user) account the job should be charged to. |
 | ``--partition=<name>`` or ``-p`` | Partition/queue in which o run the job. |
-| ``--qos=<...>`` | low, normal or high |
+| ``--qos=<...>`` | The quality of service requested; can be *low*, *normal* or *high* |
 
-### Advanced Job Control
+### Advanced Job Control parameters
 
 | Parameter | Function |
 |-----------|----------|
 | ``--array=<indexes>``  | Submit a collection of similar jobs, e.g. ``--array=1-10``. (sbatch command only). See official [SLURM documentation](https://slurm.schedmd.com/job_array.html).|
-| ``--dependency=<state:jobid>`` | Wait with the start of the job until specified dependencies have been satified. E.g. --dependency=afterok:123456 |
-| ``--ntasks-per-core=2`` | Enables hyperthreading. Only useful in special circumstances. |
+| ``--dependency=<state:jobid>`` | Wait with the start of the job until specified dependencies have been satisfied. E.g. `--dependency=afterok:123456` |
+<!-- | ``--ntasks-per-core=2`` | Enables hyperthreading. Only useful in special circumstances. | -->
 
-## Differences between CPUs and tasks
+<!-- !!! tip "Differences between CPUs and tasks"
 
-As a new users writing your first SLURM job script the difference between
-``--ntasks`` and ``--cpus-per-task`` is typically quite confusing.
-Assuming you want to run your program on a single node with  16 cores, which
-SLURM parameters should you specify?
+    As a new users writing your first SLURM job script the difference between
+    ``--ntasks`` and ``--cpus-per-task`` is typically quite confusing.
+    Assuming you want to run your program on a single node with  16 cores, which
+    SLURM parameters should you specify?
 
-The answer is it depends whether your application supports MPI.
-MPI (message passing protocol) is a communication interface used for developing
-parallel computing programs on distributed memory systems.
-This is necessary for applications running on multiple computers (nodes) to be able to
-share (intermediate) results.
+    The answer is it depends whether your application supports MPI.
+    MPI (message passing protocol) is a communication interface used for developing
+    parallel computing programs on distributed memory systems.
+    This is necessary for applications running on multiple computers (nodes) to be able to
+    share (intermediate) results.
 
-To decide which set of parameters you should use, check if your application utilizes
-MPI and therefore would benefit from running on multiple nodes simultaneously.
-On the other hand you have an non-MPI enables application or made a mistake in
-your setup, it doesn't make sense to request more than one node.
+    To decide which set of parameters you should use, check if your application utilizes
+    MPI and therefore would benefit from running on multiple nodes simultaneously.
+    On the other hand you have an non-MPI enables application or made a mistake in
+    your setup, it doesn't make sense to request more than one node. -->
 
 
 
@@ -90,13 +129,13 @@ like simple python or R scripts and a lot of software which is optimized for des
 
 #### Simple applications and scripts
 
-Many simple tools and scripts are not parallized at all and therefore won't profit from
-more than one CPU core.
+Many simple tools and scripts are not parallelized at all and therefore won't profit from
+more than one core.
 
 | Parameter | Function |
 |------------|---------|
-| ``--nodes=1`` | Start a unparallized job on only one node |
-| ``--ntasks-per-node=1`` | For OpenMP, only one task is necessary |
+| ``--nodes=1`` | Start a job on only one node |
+| `--ntasks=1`  | One task is requested |
 | ``--mem=<MB>`` | Memory (RAM) for the job. Number followed by unit prefix, e.g. 16G |
 
 If you are unsure if your application can benefit from more cores try a higher number and
@@ -105,9 +144,9 @@ observe the load of your job. If it stays at approximately one there is no need 
 
 #### OpenMP applications
 
-OpenMP (Open Multi-Processing) is a multiprocessing library is often used for programs on
-shared memory systems. Shared memory describes systems which share the memory between all
-processing units (CPU cores), so that each process can access all data on that system.
+OpenMP (Open Multi-Processing) is a multiprocessing library which is often used for programs on
+shared memory systems. Shared memory describes systems that share the memory between all
+processing units (cores), so that each process can access all data on that system.
 
 | Parameter | Function |
 |-----------|----------|
@@ -147,17 +186,16 @@ This usually results in shorter queuing times but slower inter-process connectio
 
 You should run a few tests to see what is the best fit between minimizing
 runtime and maximizing your allocated cpu-quota. That is you should not ask for
-more cpus for a job than you really can utilize efficiently. Try to run your
+more CPUs for a job than you really can utilize efficiently. Try to run your
 job on 1, 2, 4, 8, 16, etc., cores to see when the runtime for your job starts
 tailing off. When you start to see less than 30% improvement in runtime when
-doubling the cpu-counts you should probably not go any further. Recommendations
-to a few of the most used applications can be found in :ref:`sw_guides`.
+doubling the cpu-counts you should probably not go any further.
 
 
 ## Job related environment variables
 
 Here we list some environment variables that are defined when you run a job
-script.  These is not a complete list. Please consult the SLURM documentation
+script.  This is not a complete list. Please consult the SLURM documentation
 for a complete list.
 
 Job number:
@@ -229,25 +267,24 @@ We have also defined three QOSs (quality of service) for better management: low,
 | normal |              2              |       1       |
 |  high  |              3              |       1       |
 
-All members of the faculty of science have low and normal QOS which means they can use 
-1 node for 7 days or 2 nodes for 1 day. Currently just for testing, all the members have also highQOS i.e.
-they can use 3 nodes for 1 day. After about one month, this QOS will be assigned only to those of users
-that report reasonable performance using 3 nodes. 
+All members of the faculty of science have low, normal and high QOS which means they can use 
+1 node for 7 days or 2 or 3 nodes for 1 day. For example in your batch script you can write one of the below options:
 
 ```bash
-
 ## for 3 nodes
 #SBATCH --qos=high
 #SBATCH --ntasks=80
 #SBATCH -w compute-0-[0,2,3]
 #SBATCH --time=1-00:00:00 # maximum time for "high" QOS is 1 day
-
+```
+```bash
 ## for 2 nodes (e.g. compute-0-0 and 0-3)
 #SBATCH --qos=normal
 #SBATCH --ntasks=56 ## 
 #SBATCH -w compute-0-[0,3] 
 #SBATCH --time=1-00:00:00 # maximum time for "normal" QOS is 1 day
-
+```
+```bash
 ## for 1 node (e.g. compute-0-1)
 #SBATCH --qos=low ## this is default, so you can ignore it
 #SBATCH --ntasks=16 ## 
@@ -255,5 +292,6 @@ that report reasonable performance using 3 nodes.
 #SBATCH --time=7-00:00:00 # maximum time for "low" QOS is 7 days
 ```
 
-Please note that currently compute-0-1 has NOT equipped with 10 G adapter, so for distributed MPI parallel jobs,
-you can not use it.
+!!! warning
+
+    Please note that currently compute-0-1 has NOT equipped with 10 G adapter, so for distributed MPI parallel jobs, you can not use it.
