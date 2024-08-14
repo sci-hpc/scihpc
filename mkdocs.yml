@@ -1,8 +1,9 @@
-site_name: Sci-HPC
+site_name: SciHPC
 site_dir: 'public/'
 theme:
   name: material
   custom_dir: docs/overrides
+  logo: assets/images/logo.png
   palette:
     # Palette toggle for light mode
     # - scheme: default
@@ -65,8 +66,8 @@ site_url: !ENV READTHEDOCS_CANONICAL_URL
 # edit_uri: edit/main/docs/
 # docs_dir: docs
 site_description: >-
-  Sci-HPC tries to make High performance computing more simple and accessible.
-copyright: Copyright &copy; 2023 - 2024 Sci-HPC team
+  SciHPC tries to make High performance computing more simple and accessible.
+copyright: Copyright &copy; 2023 - 2024 SciHPC team
 # extra_javascript:
 #   - assets/javascripts/versions.js
 # extra_css:
