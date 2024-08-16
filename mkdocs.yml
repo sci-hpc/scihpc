@@ -143,6 +143,8 @@ nav:
       - Managing jobs and workflows:
         - docs/jobs/dos_and_donts.md
         - docs/jobs/slurm.md
+        - docs/jobs/partition.md
+        - docs/jobs/qos.md
         - docs/jobs/examples.md
         - docs/jobs/interactive.md
         - docs/jobs/job_management.md
