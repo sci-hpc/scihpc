@@ -31,7 +31,7 @@ make
 
 ```bash
 salloc -p para -n 4 --ntasks-per-core=1 -w compute-0-0 --time=01:00:00
-cd /work8/testuser1/bhac_runs/
+cd /work8/$USER/bhac_runs/
 cd shockTube
 mkdir output
 ml OpenMPI/4.1.2-GCC-11.2.0
