@@ -157,3 +157,5 @@ nav:
       
   - Blog:
       - blog/index.md
+  - Tutorial:
+      - tutorial/index.md
