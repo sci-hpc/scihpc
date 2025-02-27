@@ -1,0 +1,126 @@
+<!-- Custom HTML site displayed as the Home chapter -->
+
+{% extends "main.html" %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ 'assets/stylesheets/home.css' | url }}" type="text/css" data-proofer-ignore>
+{% endblock %}
+
+{% block tabs %}
+{{ super() }}
+
+<!-- Main site Entry button descriptions -->
+<div class="gradient-container">
+    <section class="tx-container">
+        <div class="md-grid md-typeset">
+            <div>
+                <div class="tx-hero__h1">
+                    <p>HPC for all your computing needs</p>
+                </div>
+            </div>
+            <div class="tx-hero__text">
+                
+                <p> Need to access computing resources? You may want to try out Scicluster</p>
+            </div>
+        </div>
+        <div class="md-grid md-typeset">
+            <div class="tx-hero">
+                <!-- <div class="tx-hero__image">
+                </div> -->
+                <div class="tx-hero__content">
+                    <a href="docs/about/getting-started/" data-proofer-ignore title="Get started"
+                       class="md-button md-button--primary">
+                        Get started
+                    </a>
+                    <a href="docs/" data-proofer-ignore title="Documentation" class="md-button">
+                        Documentation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main site box descriptions -->
+</div>    
+
+<section class="mdx-parallax__group" data-md-color-scheme="default">
+    <div class="md-content md-grid" data-md-component="content">
+        <div class="md-content__inner">
+            <!-- <header class="md-typeset">
+                <h1 id="supercharge-your-deployments">
+                    Speedup your works
+                </h1>
+            </header> -->
+            <div class="mdx-spotlight">
+                <figure class="mdx-spotlight__feature">
+                    <img
+                            src="assets/images/capabilities-04.png"
+                            alt="scientific coding"
+                            loading="lazy"
+                            width="510"
+                            height="378"
+                            data-proofer-ignore
+                    />
+                    <figcaption class="md-typeset">
+                        <h2 id="scicluster">Scicluster, A professional HPC cluster</h2>
+                        <h3>Build by scientist for scientist</h3>
+                        <p>
+                            Scicluster is an HPC Gnu/Linux cluster 
+                        </p>
+                        <ul>
+                            <li>Slurm as the workload manager</li>
+                            <li>LMOD provides many pre-installed softwares and packages, just by a command</li>
+                            <li>Apptainer container technology provides extra simplification for using softwares and reproducible research</li>
+                        </ul>
+                    </figcaption>
+                </figure>
+                <figure class="mdx-spotlight__feature">
+                    <img
+                            src="assets/images/web-interface.png"
+                            alt="web interface"
+                            loading="lazy"
+                            width="510"
+                            height="378"
+                            data-proofer-ignore
+                    />
+                    <figcaption class="md-typeset">
+                        <h2 id="web-interface">Web interface makes HPC simple</h2>
+                        <h3>Access to the all cluster facilities on the web browser</h3>
+                        <p>
+                            The web interface gets integrated access to the cluster and also provides:
+                        </p>
+                        <ul>
+                            <li>Jupyter Lab interface with data/ML/AI research facilities</li>
+                            <li>RStudio server</li>
+                            <li>Desktop to connect and use the cluster</li>
+                        </ul>
+                    </figcaption>
+                </figure>
+                <figure class="mdx-spotlight__feature">
+                    <img
+                            src="assets/images/nv-container.png"
+                            alt="container in hpc"
+                            loading="lazy"
+                            width="510"
+                            height="378"
+                            data-proofer-ignore
+                    />
+                    <figcaption class="md-typeset">
+                        <h2 id="container-technology">Containers make workflow simple</h2>
+                        <p>
+                            Simplify your workflow by using containers to:
+                        </p>
+                        <ul>
+                            <li>Install softwares in an isolate environment</li>
+                            <li>Install softwares which cannot be installed  normally</li>
+                            <li>Make your research reproducible</li>
+                        </ul>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block content %}{% endblock %}
